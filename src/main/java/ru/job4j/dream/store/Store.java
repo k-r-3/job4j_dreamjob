@@ -16,6 +16,7 @@ public class Store {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
     private final static AtomicInteger POST_ID = new AtomicInteger(4);
+    private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
 
     private Store() {
         posts.put(1, new Post(1, "Junior Java Job", "Learner Assistant, Java Backend",
@@ -45,5 +46,10 @@ public class Store {
         post.setId(POST_ID.incrementAndGet());
         post.setCreated(LocalDateTime.now().format(pattern));
         posts.put(post.getId(), post);
+    }
+
+    public void save(Candidate candidate) {
+        candidate.setId(CANDIDATE_ID.incrementAndGet());
+        candidates.put(candidate.getId(), candidate);
     }
 }
