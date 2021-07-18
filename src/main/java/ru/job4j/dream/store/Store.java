@@ -24,7 +24,7 @@ public class Store {
         posts.put(2, new Post(2, "Middle Java Job", "Java Application Developer - Intermediate",
                 LocalDateTime.now().format(pattern)));
         posts.put(3, new Post(3, "Senior Java Job", "Are you a passionate Java Engineer with"
-                +" experience building systems in a fast-paced agile environment?", LocalDateTime.now().format(pattern)));
+                + " experience building systems in a fast-paced agile environment?", LocalDateTime.now().format(pattern)));
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));
@@ -43,7 +43,9 @@ public class Store {
     }
 
     public void save(Post post) {
-        post.setId(POST_ID.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(POST_ID.incrementAndGet());
+        }
         post.setCreated(LocalDateTime.now().format(pattern));
         posts.put(post.getId(), post);
     }
@@ -51,5 +53,9 @@ public class Store {
     public void save(Candidate candidate) {
         candidate.setId(CANDIDATE_ID.incrementAndGet());
         candidates.put(candidate.getId(), candidate);
+    }
+
+    public Post findById(int id) {
+        return posts.get(id);
     }
 }
