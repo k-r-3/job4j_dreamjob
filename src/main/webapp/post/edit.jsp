@@ -49,7 +49,7 @@
                         </label>
                         <label>Описание</label>
                         <label>
-                            <input type="text" class="form-control" name="description">
+                            <input type="text" class="form-control" name="description" value="<%=post.getDescription()%>">
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
