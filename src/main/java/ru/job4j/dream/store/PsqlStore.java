@@ -146,7 +146,7 @@ public class PsqlStore implements Store {
     public Post findById(int id) {
         Post post = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("SELECT * FROM post WHERE post.id =" + id)
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM post WHERE id =" + id)
         ) {
             try (ResultSet item = stat.executeQuery()) {
                 if (item.next()) {
@@ -160,6 +160,24 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return post;
+    }
+
+    public Candidate findCandById(int id) {
+        Candidate candidate = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM candidate WHERE id =" + id)
+        ) {
+            try (ResultSet item = stat.executeQuery()) {
+                if (item.next()) {
+                    candidate = new Candidate(item.getInt("id"),
+                            item.getString("name"));
+                    candidate.setPhoto(item.getString("photo"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidate;
     }
 
     private void update(Post post) {

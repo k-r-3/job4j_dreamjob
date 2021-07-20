@@ -5,7 +5,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.store.MemStore;
+import ru.job4j.dream.store.PsqlStore;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -48,7 +48,7 @@ public class PhotoUploadServlet extends HttpServlet {
                         extension = m.group(2);
                     }
                     File photo = new File(folder + File.separator + name + extension);
-                    Candidate candidate = MemStore.instOf().findCandById(Integer.parseInt(name));
+                    Candidate candidate = PsqlStore.instOf().findCandById(Integer.parseInt(name));
                     candidate.setPhoto(photo.getName());
                     try (FileOutputStream out = new FileOutputStream(photo)) {
                         out.write(item.getInputStream().readAllBytes());
