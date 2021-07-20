@@ -5,14 +5,13 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,7 +48,7 @@ public class PhotoUploadServlet extends HttpServlet {
                         extension = m.group(2);
                     }
                     File photo = new File(folder + File.separator + name + extension);
-                    Candidate candidate = Store.instOf().findCandById(Integer.parseInt(name));
+                    Candidate candidate = MemStore.instOf().findCandById(Integer.parseInt(name));
                     candidate.setPhoto(photo.getName());
                     try (FileOutputStream out = new FileOutputStream(photo)) {
                         out.write(item.getInputStream().readAllBytes());

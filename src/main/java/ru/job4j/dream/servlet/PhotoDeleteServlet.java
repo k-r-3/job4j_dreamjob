@@ -1,6 +1,6 @@
 package ru.job4j.dream.servlet;
 
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,7 +13,7 @@ public class PhotoDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Store.instOf().findCandById(id).setPhoto(null);
+        MemStore.instOf().findCandById(id).setPhoto(null);
         for (File file : new File("c:\\images\\").listFiles()) {
             if (file.getName().startsWith(String.valueOf(id))) {
                 Files.delete(file.toPath());
