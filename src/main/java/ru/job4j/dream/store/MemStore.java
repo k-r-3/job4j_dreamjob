@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,14 +10,17 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
-public class MemStore implements Store{
+public class MemStore implements Store {
     private static final MemStore INST = new MemStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
     private final static AtomicInteger POST_ID = new AtomicInteger(3);
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(3);
+    private final static AtomicInteger USER_ID = new AtomicInteger();
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job", "Learner Assistant, Java Backend",
@@ -42,6 +46,11 @@ public class MemStore implements Store{
         return candidates.values();
     }
 
+    @Override
+    public Collection<User> findAllUsers() {
+        return users.values();
+    }
+
     public void save(Post post) {
         if (post.getId() == 0) {
             post.setId(POST_ID.incrementAndGet());
@@ -57,11 +66,33 @@ public class MemStore implements Store{
         candidates.put(candidate.getId(), candidate);
     }
 
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            user.setId(USER_ID.incrementAndGet());
+        }
+        users.put(user.getId(), user);
+    }
+
     public Post findById(int id) {
         return posts.get(id);
     }
 
     public Candidate findCandById(int id) {
         return candidates.get(id);
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return users.get(id);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return Stream.of(users)
+                .flatMap(u -> users.values().stream())
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst()
+                .orElseGet(User::new);
     }
 }

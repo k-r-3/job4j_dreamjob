@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,19 @@ public class PsqlMain {
             System.out.println(candidate.getId() + " "
                     + candidate.getName() + " "
                     + candidate.getPhoto());
+        }
+        User boris = new User();
+        boris.setName("Boris");
+        boris.setEmail("e@mail.com");
+        boris.setPassword("****");
+        store.save(boris);
+        User ivan = new User();
+        ivan.setName("Ivan");
+        ivan.setEmail("e@mail.com");
+        ivan.setPassword("****");
+        store.save(ivan);
+        for (User user : store.findAllUsers()) {
+            System.out.println(user);
         }
     }
 }

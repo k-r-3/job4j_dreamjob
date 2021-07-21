@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -92,6 +93,28 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public Collection<User> findAllUsers() {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement("SELECT * FROM users")
+        ) {
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    User user = new User();
+                    user.setId(result.getInt("id"));
+                    user.setName(result.getString("name"));
+                    user.setEmail(result.getString("email"));
+                    user.setPassword(result.getString("pass"));
+                    users.add(user);
+                }
+            }
+        } catch (Exception e) {
+            LOG.debug("find all users exception", e);
+        }
+        return users;
+    }
+
+    @Override
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -107,6 +130,35 @@ public class PsqlStore implements Store {
         } else {
             update(candidate);
         }
+    }
+
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            create(user);
+        } else {
+            update(user);
+        }
+    }
+
+    private User create(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO users(name, email, pass) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            stat.setString(1, user.getName());
+            stat.setString(2, user.getEmail());
+            stat.setString(3, user.getPassword());
+            stat.execute();
+            try (ResultSet id = stat.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.debug("create post exception", e);
+        }
+        return user;
     }
 
     private Post create(Post post) {
@@ -185,6 +237,62 @@ public class PsqlStore implements Store {
         return candidate;
     }
 
+    @Override
+    public User findUserById(int id) {
+        User user = new User();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE id =" + id)
+        ) {
+            setUserByResult(stat, user, String.valueOf(id));
+        } catch (Exception e) {
+            LOG.debug("find by ID user exception", e);
+        }
+        return user;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = new User();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE email =" + email)
+        ) {
+            setUserByResult(stat, user, email);
+        } catch (Exception e) {
+            LOG.debug("find by email user exception", e);
+        }
+        return user;
+    }
+
+    private void setUserByResult(PreparedStatement stat, User user, String query) {
+        try (ResultSet item = stat.executeQuery()) {
+            if (item.next()) {
+                user = new User();
+                user.setId(item.getInt("id"));
+                user.setName(item.getString("name"));
+                user.setEmail(item.getString("email"));
+                user.setPassword(item.getString("pass"));
+            }
+        } catch (SQLException e) {
+            LOG.debug("find by " + query + " user exception", e);
+        }
+    }
+
+    private void update(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement(
+                     "UPDATE users "
+                             + "SET name = ?, email = ?, pass = ? "
+                             + "WHERE id =" + user.getId())
+        ) {
+            stat.setString(1, user.getName());
+            stat.setString(2, user.getEmail());
+            stat.setString(3, user.getPassword());
+            stat.execute();
+        } catch (Exception e) {
+            LOG.debug("update user exception", e);
+        }
+    }
+
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement stat = cn.prepareStatement(
@@ -196,7 +304,7 @@ public class PsqlStore implements Store {
             stat.setString(2, post.getDescription());
             stat.setString(3, post.getCreated());
             stat.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LOG.debug("update post exception", e);
         }
     }
@@ -212,7 +320,7 @@ public class PsqlStore implements Store {
             stat.setString(1, candidate.getName());
             stat.setString(2, candidate.getPhoto());
             stat.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LOG.debug("update candidate exception", e);
         }
     }
