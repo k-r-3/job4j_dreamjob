@@ -19,6 +19,7 @@ public class AuthServlet extends HttpServlet {
         HttpSession sc = req.getSession();
         if ("root@local".equals(email) && "root".equals(password)) {
             User admin = PsqlStore.instOf().findByEmail(email);
+            System.out.println(admin);
             sc.setAttribute("user", admin);
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
         } else {
