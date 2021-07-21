@@ -30,7 +30,7 @@
         </ul>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/reg.jsp">Регестрация</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/reg.jsp">Регистрация</a>
             </li>
         </ul>
 
