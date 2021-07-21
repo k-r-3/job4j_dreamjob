@@ -36,7 +36,9 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Тема</th>
+                        <th scope="col">Описание</th>
                     </tr>
                     </thead>
                     <tbody>
