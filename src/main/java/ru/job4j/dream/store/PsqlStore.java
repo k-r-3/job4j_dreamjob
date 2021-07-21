@@ -11,10 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
@@ -254,9 +251,11 @@ public class PsqlStore implements Store {
     public User findByEmail(String email) {
         User user = new User();
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE email =" + email)
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE email = ?")
         ) {
+            stat.setString(1, email);
             setUserByResult(stat, user, email);
+            System.out.println(user);
         } catch (Exception e) {
             LOG.debug("find by email user exception", e);
         }
@@ -266,9 +265,9 @@ public class PsqlStore implements Store {
     private void setUserByResult(PreparedStatement stat, User user, String query) {
         try (ResultSet item = stat.executeQuery()) {
             if (item.next()) {
-                user = new User();
+                String name = item.getString("name");
                 user.setId(item.getInt("id"));
-                user.setName(item.getString("name"));
+                user.setName(name);
                 user.setEmail(item.getString("email"));
                 user.setPassword(item.getString("pass"));
             }

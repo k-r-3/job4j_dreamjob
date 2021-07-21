@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS users
     email text UNIQUE,
     pass text
 );
+
+INSERT INTO users(name, email, pass) VALUES ('Admin', 'root@local', 'root');
