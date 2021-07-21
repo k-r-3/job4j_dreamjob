@@ -73,13 +73,13 @@
                                     <ul class="nav">
                                         <li class="nav-item">
                                             <a class="nav-link"
-                                               href="<c:url value='/photo-upload?id=${candidate.id}'/>">Добавить</a>
+                                               href="<c:url value='/photo-upload.do?id=${candidate.id}'/>">Добавить</a>
                                         </li>
                                     </ul>
                                 </c:if>
                                 <c:if test="${candidate.photo != null}">
-                                    <form action="<c:url value='/candidate/delete?id=${candidate.id}'/>" method="post">
-                                        <img src="<c:url value='/download?name=${candidate.photo}'/>" width="100px"
+                                    <form action="<c:url value='/candidate/delete.do?id=${candidate.id}'/>" method="post">
+                                        <img src="<c:url value='/download.do?name=${candidate.photo}'/>" width="100px"
                                              height="100px"/>
                                         <button type="submit" class="btn btn-default">Удалить</button>
                                     </form>

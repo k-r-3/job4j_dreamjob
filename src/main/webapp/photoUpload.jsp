@@ -46,7 +46,7 @@
                 Выберите фото
             </div>
             <div class="card-body">
-                <form action="<c:url value='/photo-upload?name=${id}'/>" method="post" enctype="multipart/form-data">
+                <form action="<c:url value='/photo-upload.do?name=${id}'/>" method="post" enctype="multipart/form-data">
                     <div class="checkbox">
                         <input type="file" name="file">
                         <button type="submit" class="btn btn-default">Добавить фото</button>

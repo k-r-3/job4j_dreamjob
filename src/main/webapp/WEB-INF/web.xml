@@ -9,6 +9,12 @@
          version="2.4">
 
     <display-name>Archetype Created Web Application</display-name>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.dream.filter.AuthFilter</filter-class>
+    </filter>
+
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.IndexServlet</servlet-class>
@@ -41,6 +47,12 @@
         <servlet-name>AuthServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.AuthServlet</servlet-class>
     </servlet>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.do</url-pattern>
@@ -55,19 +67,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DownloadServlet</servlet-name>
-        <url-pattern>/download</url-pattern>
+        <url-pattern>/download.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
+        <url-pattern>/upload.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PhotoUploadServlet</servlet-name>
-        <url-pattern>/photo-upload</url-pattern>
+        <url-pattern>/photo-upload.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PhotoDeleteServlet</servlet-name>
-        <url-pattern>/candidate/delete</url-pattern>
+        <url-pattern>/candidate/delete.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
