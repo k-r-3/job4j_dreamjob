@@ -28,6 +28,23 @@
 <div class="container pt-3">
 
     <div class="row">
+        <div class="row">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> |
+                        Выйти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/index.jsp"> На главную</a>
+                </li>
+            </ul>
+        </div>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 Кандидаты
@@ -53,9 +70,12 @@
                             </td>
                             <td>
                                 <c:if test="${candidate.photo == null}">
-                                    <a href="<c:url value='/photo-upload?id=${candidate.id}'/>">
-                                            <i class="fa fa-edit mr-3"></i>
-                                        </a>Добавить
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               href="<c:url value='/photo-upload?id=${candidate.id}'/>">Добавить</a>
+                                        </li>
+                                    </ul>
                                 </c:if>
                                 <c:if test="${candidate.photo != null}">
                                     <form action="<c:url value='/candidate/delete?id=${candidate.id}'/>" method="post">

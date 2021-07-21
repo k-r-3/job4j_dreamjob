@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
 <%@ page import="ru.job4j.dream.store.PsqlStore" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -31,7 +32,20 @@
     }
 %>
 <div class="container pt-3">
+
     <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/posts.do">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.jsp"> На главную</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a>
+            </li>
+
+        </ul>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
