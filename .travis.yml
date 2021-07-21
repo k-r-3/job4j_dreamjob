@@ -3,6 +3,12 @@ language: java
 jdk:
   - openjdk15
 
+services :
+  - postgresql
+
+before_install:
+  - psql -c 'create database dreamjob;' -U postgres
+
 sudo: false
 
 after_success:

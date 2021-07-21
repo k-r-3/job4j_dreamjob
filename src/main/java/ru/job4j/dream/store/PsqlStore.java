@@ -1,6 +1,8 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
@@ -15,13 +17,14 @@ import java.util.Properties;
 
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
+    private final Logger LOG = LoggerFactory.getLogger(PsqlStore.class.getName());
 
     private PsqlStore() {
         Properties config = new Properties();
         try (BufferedReader in = new BufferedReader(new FileReader("db.properties"))) {
             config.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug("db.properties read exception", e);
         }
         pool.setDriverClassName(config.getProperty("jdbc.driver"));
         pool.setUrl(config.getProperty("jdbc.url"));
@@ -62,7 +65,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("find all posts exception", e);
         }
         return posts;
     }
@@ -83,7 +86,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("find all candidates exception", e);
         }
         return candidates;
     }
@@ -108,7 +111,8 @@ public class PsqlStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("INSERT INTO post(name, descr, created) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO post(name, descr, created) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             stat.setString(1, post.getName());
             stat.setString(2, post.getDescription());
@@ -120,14 +124,15 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("create post exception", e);
         }
         return post;
     }
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             stat.setString(1, candidate.getName());
             stat.execute();
@@ -137,7 +142,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("create candidate exception", e);
         }
         return candidate;
     }
@@ -157,7 +162,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("find by ID post exception", e);
         }
         return post;
     }
@@ -175,7 +180,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug("find by ID candidates exception", e);
         }
         return candidate;
     }
@@ -191,8 +196,8 @@ public class PsqlStore implements Store {
             stat.setString(2, post.getDescription());
             stat.setString(3, post.getCreated());
             stat.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            LOG.debug("update post exception", e);
         }
     }
 
@@ -207,8 +212,8 @@ public class PsqlStore implements Store {
             stat.setString(1, candidate.getName());
             stat.setString(2, candidate.getPhoto());
             stat.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            LOG.debug("update candidate exception", e);
         }
     }
 }
