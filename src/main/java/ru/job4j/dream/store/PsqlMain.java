@@ -29,18 +29,5 @@ public class PsqlMain {
                     + candidate.getName() + " "
                     + candidate.getPhoto());
         }
-        User boris = new User();
-        boris.setName("Boris");
-        boris.setEmail("e@mail.com");
-        boris.setPassword("****");
-        store.save(boris);
-        User ivan = new User();
-        ivan.setName("Ivan");
-        ivan.setEmail("e@mail.com");
-        ivan.setPassword("****");
-        store.save(ivan);
-        for (User user : store.findAllUsers()) {
-            System.out.println(user);
-        }
     }
 }

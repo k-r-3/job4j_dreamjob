@@ -16,7 +16,7 @@ public class MemStore implements Store {
     private static final MemStore INST = new MemStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
-    private final Map<Integer, User> users = new ConcurrentHashMap<>();
+    private final Map<String, User> users = new ConcurrentHashMap<>();
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
     private final static AtomicInteger POST_ID = new AtomicInteger(3);
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(3);
@@ -46,11 +46,6 @@ public class MemStore implements Store {
         return candidates.values();
     }
 
-    @Override
-    public Collection<User> findAllUsers() {
-        return users.values();
-    }
-
     public void save(Post post) {
         if (post.getId() == 0) {
             post.setId(POST_ID.incrementAndGet());
@@ -68,10 +63,7 @@ public class MemStore implements Store {
 
     @Override
     public void save(User user) {
-        if (user.getId() == 0) {
-            user.setId(USER_ID.incrementAndGet());
-        }
-        users.put(user.getId(), user);
+        users.putIfAbsent(user.getEmail(), user);
     }
 
     public Post findById(int id) {
@@ -83,16 +75,7 @@ public class MemStore implements Store {
     }
 
     @Override
-    public User findUserById(int id) {
-        return users.get(id);
-    }
-
-    @Override
     public User findByEmail(String email) {
-        return Stream.of(users)
-                .flatMap(u -> users.values().stream())
-                .filter(u -> u.getEmail().equals(email))
-                .findFirst()
-                .orElseGet(User::new);
+        return users.get(email);
     }
 }

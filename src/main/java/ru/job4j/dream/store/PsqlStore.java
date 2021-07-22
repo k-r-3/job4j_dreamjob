@@ -90,28 +90,6 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Collection<User> findAllUsers() {
-        List<User> users = new ArrayList<>();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement statement = cn.prepareStatement("SELECT * FROM users")
-        ) {
-            try (ResultSet result = statement.executeQuery()) {
-                while (result.next()) {
-                    User user = new User();
-                    user.setId(result.getInt("id"));
-                    user.setName(result.getString("name"));
-                    user.setEmail(result.getString("email"));
-                    user.setPassword(result.getString("pass"));
-                    users.add(user);
-                }
-            }
-        } catch (Exception e) {
-            LOG.debug("find all users exception", e);
-        }
-        return users;
-    }
-
-    @Override
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -232,19 +210,6 @@ public class PsqlStore implements Store {
             LOG.debug("find by ID candidates exception", e);
         }
         return candidate;
-    }
-
-    @Override
-    public User findUserById(int id) {
-        User user = new User();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE id =" + id)
-        ) {
-            setUserByResult(stat, user, String.valueOf(id));
-        } catch (Exception e) {
-            LOG.debug("find by ID user exception", e);
-        }
-        return user;
     }
 
     @Override

@@ -40,17 +40,22 @@
                 <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" value=${name}>
                     </div>
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" name="email" value=${email}>
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="text" class="form-control" name="password" value=${password}>
                     </div>
                     <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+                    <c:if test="${not empty error}">
+                        <div style="color: #ff0000; font-weight: bold; margin: 30px 0;">
+                                ${error}
+                        </div>
+                    </c:if>
                 </form>
         </div>
     </div>
