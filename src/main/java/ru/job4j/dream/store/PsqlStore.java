@@ -7,6 +7,8 @@ import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -131,7 +133,9 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            LOG.debug("create post exception", e);
+            Set<ConstraintViolation<String>> set = new HashSet<>();
+            throw new ConstraintViolationException("пользователь с email "
+                    + user.getEmail() + " уже существует", set);
         }
         return user;
     }
@@ -216,31 +220,25 @@ public class PsqlStore implements Store {
 
     @Override
     public User findByEmail(String email) {
-        User user = new User();
+        User user = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement stat = cn.prepareStatement("SELECT * FROM users WHERE email = ?")
         ) {
             stat.setString(1, email);
-            setUserByResult(stat, user, email);
-            System.out.println(user);
+            try (ResultSet item = stat.executeQuery()) {
+                if (item.next()) {
+                    user = new User();
+                    String name = item.getString("name");
+                    user.setId(item.getInt("id"));
+                    user.setName(name);
+                    user.setEmail(item.getString("email"));
+                    user.setPassword(item.getString("pass"));
+                }
+            }
         } catch (Exception e) {
             LOG.debug("find by email user exception", e);
         }
         return user;
-    }
-
-    private void setUserByResult(PreparedStatement stat, User user, String query) {
-        try (ResultSet item = stat.executeQuery()) {
-            if (item.next()) {
-                String name = item.getString("name");
-                user.setId(item.getInt("id"));
-                user.setName(name);
-                user.setEmail(item.getString("email"));
-                user.setPassword(item.getString("pass"));
-            }
-        } catch (SQLException e) {
-            LOG.debug("find by " + query + " user exception", e);
-        }
     }
 
     private void update(User user) {
