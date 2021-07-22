@@ -178,8 +178,9 @@ public class PsqlStore implements Store {
     public Post findById(int id) {
         Post post = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("SELECT * FROM post WHERE id =" + id)
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM post WHERE id = ?")
         ) {
+            stat.setInt(1, id);
             try (ResultSet item = stat.executeQuery()) {
                 if (item.next()) {
                     post = new Post(item.getInt("id"),
@@ -197,8 +198,9 @@ public class PsqlStore implements Store {
     public Candidate findCandById(int id) {
         Candidate candidate = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("SELECT * FROM candidate WHERE id =" + id)
+             PreparedStatement stat = cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")
         ) {
+            stat.setInt(1, id);
             try (ResultSet item = stat.executeQuery()) {
                 if (item.next()) {
                     candidate = new Candidate(item.getInt("id"),
