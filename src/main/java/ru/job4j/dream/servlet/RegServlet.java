@@ -27,8 +27,6 @@ public class RegServlet extends HttpServlet {
             PsqlStore.instOf().save(user);
             HttpSession sc = request.getSession();
             sc.setAttribute("user", user);
-            request.setAttribute("email", email);
-            request.setAttribute("password", password);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } catch (ConstraintViolationException e) {
             request.setAttribute("error", e);
