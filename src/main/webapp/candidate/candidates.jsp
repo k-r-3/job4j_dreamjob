@@ -63,7 +63,7 @@
                         <tr>
                             <td><c:out value="${candidate.id}"/></td>
                             <td>
-                                <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
+                                <a href='<c:url value="/candidate/candidates.do?id=${candidate.id}&edit=edit"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${candidate.name}"/>

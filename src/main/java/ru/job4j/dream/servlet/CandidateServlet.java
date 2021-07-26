@@ -13,8 +13,15 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("candidates", PsqlStore.instOf().findAllCandidates());
-        req.getRequestDispatcher("candidates.jsp").forward(req, resp);
+        String edit = req.getParameter("edit");
+        String path = edit != null ? "/candidate/edit.jsp" : "/candidate/candidates.jsp";
+        req.setAttribute("user", req.getSession().getAttribute("user"));
+        if (edit == null) {
+            req.setAttribute("candidates", PsqlStore.instOf().findAllCandidates());
+        }
+        String id = req.getParameter("id");
+        req.setAttribute("id", id);
+        req.getRequestDispatcher(path).forward(req, resp);
     }
 
     @Override

@@ -26,6 +26,7 @@
 <body>
 <%
     String id = request.getParameter("id");
+    System.out.println(id);
     Post post = new Post(0, "", "");
     if (id != null) {
         post = PsqlStore.instOf().findById(Integer.parseInt(id));
@@ -48,11 +49,7 @@
         </ul>
         <div class="card" style="width: 100%">
             <div class="card-header">
-                <% if (id == null) { %>
-                Новая вакансия
-                <% } else { %>
                 Редактирование вакансии
-                <% } %>
             </div>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/post/posts.do?id=<%=post.getId()%>" method="post">

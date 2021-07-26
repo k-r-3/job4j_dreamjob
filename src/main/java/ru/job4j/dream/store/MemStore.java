@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 public class MemStore implements Store {
     private static final MemStore INST = new MemStore();
@@ -21,18 +20,6 @@ public class MemStore implements Store {
     private final static AtomicInteger POST_ID = new AtomicInteger(3);
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(3);
     private final static AtomicInteger USER_ID = new AtomicInteger();
-
-    private MemStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Learner Assistant, Java Backend",
-                LocalDateTime.now().format(pattern)));
-        posts.put(2, new Post(2, "Middle Java Job", "Java Application Developer - Intermediate",
-                LocalDateTime.now().format(pattern)));
-        posts.put(3, new Post(3, "Senior Java Job", "Are you a passionate Java Engineer with"
-                + " experience building systems in a fast-paced agile environment?", LocalDateTime.now().format(pattern)));
-        candidates.put(1, new Candidate(1, "Junior Java"));
-        candidates.put(2, new Candidate(2, "Middle Java"));
-        candidates.put(3, new Candidate(3, "Senior Java"));
-    }
 
     public static MemStore instOf() {
         return INST;

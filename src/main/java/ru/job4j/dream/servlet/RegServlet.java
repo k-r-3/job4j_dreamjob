@@ -29,6 +29,9 @@ public class RegServlet extends HttpServlet {
             sc.setAttribute("user", user);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } catch (ConstraintViolationException e) {
+            request.setAttribute("name", name);
+            request.setAttribute("email", email);
+            request.setAttribute("password", password);
             request.setAttribute("error", e);
             request.getRequestDispatcher("reg.jsp").forward(request, response);
         }

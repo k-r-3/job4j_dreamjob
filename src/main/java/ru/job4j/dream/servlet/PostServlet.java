@@ -13,9 +13,15 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("posts", PsqlStore.instOf().findAllPosts());
+        String edit = req.getParameter("edit");
+        String path = edit != null ? "/post/edit.jsp" : "/post/posts.jsp";
         req.setAttribute("user", req.getSession().getAttribute("user"));
-        req.getRequestDispatcher("posts.jsp").forward(req, resp);
+        if (edit == null) {
+            req.setAttribute("posts", PsqlStore.instOf().findAllPosts());
+        }
+        String id = req.getParameter("id");
+        req.setAttribute("id", id);
+        req.getRequestDispatcher(path).forward(req, resp);
     }
 
     @Override

@@ -279,10 +279,11 @@ public class PsqlStore implements Store {
                      "UPDATE candidate "
                              + "SET name = ?, "
                              + "photo = ?"
-                             + "WHERE id =" + candidate.getId())
+                             + "WHERE id = ?")
         ) {
             stat.setString(1, candidate.getName());
             stat.setString(2, candidate.getPhoto());
+            stat.setInt(3, candidate.getId());
             stat.execute();
         } catch (Exception e) {
             LOG.debug("update candidate exception", e);
