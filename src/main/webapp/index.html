@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <h1>Биржа труда</h1>
+    <p>Заполните заявку :</p>
+</div>
+<form>
+    <div class="form-group">
+        <label for="FNameInput">Имя</label>
+            <input type="text" class="form-control" id="FNameInput" placeholder="Введите свое имя с большой буквы">
+    </div>
+    <div class="form-group">
+        <label for="LNameInput">Фамилия</label>
+        <input type="text" class="form-control" id="LNameInput" placeholder="Введите свою фамилию с большой буквы">
+    </div>
+    <div class="form-group">
+        <label for="SexInput">Пол</label>
+        <select class="form-control" id="SexInput">
+            <option>М</option>
+            <option>Ж</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Description">Описание</label>
+        <textarea class="form-control" id="Description" rows="2" aria-describedby="DescHelp"></textarea>
+        <small id="DescHelp" class="form-text text-muted">Сделайте краткое описание</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+<br>
+<br>
+<table class="table table-striped table-bordered">
+    <caption>Список кандидатов</caption>
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Пол</th>
+        <th scope="col">Описание</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>Иван</td>
+        <td>Иванов</td>
+        <td>М</td>
+        <td>Джуниор-java разработчик</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Борис</td>
+        <td>Иванов</td>
+        <td>М</td>
+        <td>Мидл-java разработчик</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td>Александр</td>
+        <td>Александров</td>
+        <td>М</td>
+        <td>Тим лид</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
