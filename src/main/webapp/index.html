@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var container = document.body.getElementsByClassName("form-control");
+            for (var i = 0; i < container.length; i++) {
+                var value = container.item(i);
+                if (value.value === '') {
+                    alert($(value).attr('title'));
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -17,11 +28,11 @@
 <form>
     <div class="form-group">
         <label for="FNameInput">Имя</label>
-            <input type="text" class="form-control" id="FNameInput" placeholder="Введите свое имя с большой буквы">
+            <input type="text" class="form-control"  title="введите имя" id="FNameInput" placeholder="Введите свое имя с большой буквы">
     </div>
     <div class="form-group">
         <label for="LNameInput">Фамилия</label>
-        <input type="text" class="form-control" id="LNameInput" placeholder="Введите свою фамилию с большой буквы">
+        <input type="text" class="form-control" title="введите фамилию" id="LNameInput" placeholder="Введите свою фамилию с большой буквы">
     </div>
     <div class="form-group">
         <label for="SexInput">Пол</label>
@@ -32,10 +43,10 @@
     </div>
     <div class="form-group">
         <label for="Description">Описание</label>
-        <textarea class="form-control" id="Description" rows="2" aria-describedby="DescHelp"></textarea>
+        <textarea class="form-control" id="Description" title="введите описание" rows="2" aria-describedby="DescHelp"></textarea>
         <small id="DescHelp" class="form-text text-muted">Сделайте краткое описание</small>
     </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
+    <button type="submit" class="btn btn-primary" onclick="return validate()">Отправить</button>
 </form>
 <br>
 <br>
