@@ -99,6 +99,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GreetingServlet</servlet-name>
-        <url-pattern>/greet</url-pattern>
+        <url-pattern>/items/greet</url-pattern>
     </servlet-mapping>
 </web-app>
