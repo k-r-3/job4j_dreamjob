@@ -9,12 +9,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function validate() {
-            var container = document.body.getElementsByClassName("form-control");
-            for (var i = 0; i < container.length; i++) {
-                var value = container.item(i);
+            var form = document.body.getElementsByClassName("form-control");
+            for (var i = 0; i < form.length; i++) {
+                var value = form.item(i);
                 if (value.value === '') {
                     alert($(value).attr('title'));
                 }
+            }
+        }
+
+        function addRow() {
+            var form = document.body.getElementsByClassName("form-control");
+            var amount = document.body.getElementsByTagName("tr").length;
+            $('#table tr:last').after('<tr><th scope="row">'+amount+'</th></tr>')
+            for (var i = 0; i < form.length; i++) {
+                const name = form.item(i);
+                $('#table tr:last').append('<td>' + name.value +'</td>');
             }
         }
     </script>
@@ -50,7 +60,7 @@
 </form>
 <br>
 <br>
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered" id="table">
     <caption>Список кандидатов</caption>
     <thead>
     <tr>
@@ -85,5 +95,6 @@
     </tr>
     </tbody>
 </table>
+<button type="button" class="btn btn-default" onclick="addRow()">Add row</button>
 </body>
 </html>
