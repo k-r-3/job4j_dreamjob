@@ -21,6 +21,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script>
+        function validate() {
+            var form = document.body.getElementsByClassName("form-control");
+            for (var i = 0; i < form.length; i++) {
+                var value = form.item(i);
+                if (value.value === '') {
+                    alert($(value).attr('title'));
+                    return false;
+                }
+            }
+        }
+    </script>
     <title>Работа мечты</title>
 </head>
 <body>
@@ -56,14 +68,14 @@
                     <div class="form-group">
                         <label>Заголовок</label>
                         <label>
-                            <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                            <input type="text" class="form-control" title="ведите имя" name="name" value="<%=post.getName()%>">
                         </label>
                         <label>Описание</label>
                         <label>
-                            <input type="text" class="form-control" name="description" value="<%=post.getDescription()%>">
+                            <input type="text" class="form-control" title="введите описание" name="description" value="<%=post.getDescription()%>">
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
         </div>

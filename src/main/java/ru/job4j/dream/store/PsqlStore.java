@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
@@ -92,6 +93,47 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public Collection<City> findAllCity() {
+        List<City> cityList = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement("SELECT * FROM city")
+        ) {
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    City city = new City();
+                    city.setId(result.getInt("id"));
+                    city.setName(result.getString("name"));
+                    cityList.add(city);
+                }
+            }
+        } catch (Exception e) {
+            LOG.debug("find all city exception", e);
+        }
+        return cityList;
+    }
+
+    @Override
+    public Map<Integer, String> cityOfCandidate() {
+        Map<Integer, String> map = new HashMap<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement("SELECT cand.id, c.name FROM city c"
+                     + " JOIN candidate cand"
+                     + " ON c.id = cand.city_id")
+        ) {
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    map.putIfAbsent(id, name);
+                }
+            }
+        } catch (SQLException e) {
+            LOG.debug("select candidate city exception", e);
+        }
+        return map;
+    }
+
+    @Override
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -162,10 +204,11 @@ public class PsqlStore implements Store {
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO candidate(name, city_id) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             stat.setString(1, candidate.getName());
+            stat.setInt(2, candidate.getCityId());
             stat.execute();
             try (ResultSet id = stat.getGeneratedKeys()) {
                 if (id.next()) {
@@ -176,6 +219,25 @@ public class PsqlStore implements Store {
             LOG.debug("create candidate exception", e);
         }
         return candidate;
+    }
+
+    private City create(City city) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO city(name, cand_id) VALUES (?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            stat.setString(1, city.getName());
+            stat.setInt(2, city.getId());
+            stat.execute();
+            try (ResultSet id = stat.getGeneratedKeys()) {
+                if (id.next()) {
+                    city.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            LOG.debug("create city exception", e);
+        }
+        return city;
     }
 
     @Override
@@ -278,12 +340,14 @@ public class PsqlStore implements Store {
              PreparedStatement stat = cn.prepareStatement(
                      "UPDATE candidate "
                              + "SET name = ?, "
-                             + "photo = ?"
+                             + "photo = ?, "
+                             + "city_id = ? "
                              + "WHERE id = ?")
         ) {
             stat.setString(1, candidate.getName());
             stat.setString(2, candidate.getPhoto());
-            stat.setInt(3, candidate.getId());
+            stat.setInt(3, candidate.getCityId());
+            stat.setInt(4, candidate.getId());
             stat.execute();
         } catch (Exception e) {
             LOG.debug("update candidate exception", e);

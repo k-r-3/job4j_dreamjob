@@ -19,6 +19,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script>
+        function validate() {
+            var form = document.body.getElementsByClassName("form-control");
+            for (var i = 0; i < form.length; i++) {
+                var value = form.item(i);
+                if (value.value === '') {
+                    alert($(value).attr('title'));
+                    return false;
+                }
+            }
+        }
+    </script>
 
     <title>Работа мечты</title>
 </head>
@@ -40,17 +52,17 @@
                 <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" required name="name" value=${name}>
+                        <input type="text" class="form-control" title="введите имя" name="name" value=${name}>
                     </div>
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" required name="email" value=${email}>
+                        <input type="text" class="form-control" title="введите почту" name="email" value=${email}>
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" required name="password" value=${password}>
+                        <input type="text" class="form-control" title="введите пароль" name="password" value=${password}>
                     </div>
-                    <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Зарегестрироваться</button>
                     <c:if test="${not empty error}">
                         <div style="color: #ff0000; font-weight: bold; margin: 30px 0;">
                                 ${error}

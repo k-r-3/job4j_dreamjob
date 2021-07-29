@@ -1,3 +1,10 @@
+<%@ page import="ru.job4j.dream.model.City" %>
+<%@ page import="java.util.List" %>
+<%@ page import="ru.job4j.dream.store.PsqlStore" %>
+<%@ page import="ru.job4j.dream.model.Candidate" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -56,37 +63,43 @@
                         <th scope="col">ID</th>
                         <th scope="col">Имя</th>
                         <th scope="col">Фото</th>
+                        <th scope="col">Город</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${candidates}" var="candidate">
-                        <tr>
-                            <td><c:out value="${candidate.id}"/></td>
-                            <td>
-                                <a href='<c:url value="/candidate/candidates.do?id=${candidate.id}&edit=edit"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
-                                </a>
-                                <c:out value="${candidate.name}"/>
-                            </td>
-                            <td>
-                                <c:if test="${candidate.photo == null}">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="<c:url value='/photo-upload.do?id=${candidate.id}'/>">Добавить</a>
-                                        </li>
-                                    </ul>
-                                </c:if>
-                                <c:if test="${candidate.photo != null}">
-                                    <form action="<c:url value='/candidate/delete.do?id=${candidate.id}'/>" method="post">
-                                        <img src="<c:url value='/download.do?name=${candidate.photo}'/>" width="100px"
-                                             height="100px"/>
-                                        <button type="submit" class="btn btn-default">Удалить</button>
-                                    </form>
-                                </c:if>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <tr>
+                        <td><c:out value="${candidate.id}"/></td>
+                        <td>
+                            <a href='<c:url value="/candidate/candidates.do?id=${candidate.id}&edit=edit"/>'>
+                                <i class="fa fa-edit mr-3"></i>
+                            </a>
+                            <c:out value="${candidate.name}"/>
+                        </td>
+                        <td>
+                            <c:if test="${candidate.photo == null}">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="<c:url value='/photo-upload.do?id=${candidate.id}'/>">Добавить</a>
+                                    </li>
+                                </ul>
+                            </c:if>
+                            <c:if test="${candidate.photo != null}">
+                                <form action="<c:url value='/candidate/delete.do?id=${candidate.id}'/>"
+                                      method="post">
+                                    <img src="<c:url value='/download.do?name=${candidate.photo}'/>" width="100px"
+                                         height="100px"/>
+                                    <button type="submit" class="btn btn-default">Удалить</button>
+                                </form>
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:out value="${cand_city.get(candidate.id)}"/>
+                            <br>
+                            </c:forEach>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

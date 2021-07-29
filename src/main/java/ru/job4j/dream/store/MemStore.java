@@ -1,12 +1,15 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,6 +19,7 @@ public class MemStore implements Store {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final Map<String, User> users = new ConcurrentHashMap<>();
+    private final Collection<City> cities = List.of(new City("City", 1));
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
     private final static AtomicInteger POST_ID = new AtomicInteger(3);
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(3);
@@ -31,6 +35,16 @@ public class MemStore implements Store {
 
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
+    }
+
+    @Override
+    public Collection<City> findAllCity() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, String> cityOfCandidate() {
+        return null;
     }
 
     public void save(Post post) {

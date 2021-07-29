@@ -55,6 +55,10 @@
         <servlet-name>GreetingServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.GreetingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CityServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.CityServlet</servlet-class>
+    </servlet>
 
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
@@ -100,5 +104,9 @@
     <servlet-mapping>
         <servlet-name>GreetingServlet</servlet-name>
         <url-pattern>/items/greet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CityServlet</servlet-name>
+        <url-pattern>/candidate/city</url-pattern>
     </servlet-mapping>
 </web-app>
