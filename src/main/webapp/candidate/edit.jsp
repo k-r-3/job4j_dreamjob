@@ -43,7 +43,7 @@
             dataType: 'json'
         }).done(function (data) {
             for (var city of data) {
-                $('#city-select option:last').after('<option>' + city.name + '</option>')
+                $('#city-select option:last').after('<option value=\"' + city.id + '\">' + city.name + '</option>')
             }
         }).fail(function (err) {
             console.log(err);

@@ -36,13 +36,7 @@ public class CandidateServlet extends HttpServlet {
         if (Objects.isNull(candidate)) {
             candidate = new Candidate();
         }
-        String cityName = req.getParameter("city");
-        int cityId = PsqlStore.instOf()
-                .findAllCity().stream()
-                .filter(c -> c.getName().equals(cityName))
-                .findFirst()
-                .get().getId();
-        candidate.setCityId(cityId);
+        candidate.setCityId(Integer.parseInt(req.getParameter("city")));
         candidate.setName(req.getParameter("name"));
         PsqlStore.instOf().save(candidate);
         resp.sendRedirect(req.getContextPath() + "/candidate/candidates.do");
