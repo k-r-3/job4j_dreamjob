@@ -35,7 +35,7 @@
     <title>Работа мечты</title>
 </head>
 <body>
-<div class="container" pt-3>
+<div class="container pt-3">
 
     <ul class="nav">
         <li class="nav-item">

@@ -76,6 +76,6 @@ public class PostServletTest {
         when(req.getParameter("id")).thenReturn("1");
         when(req.getRequestDispatcher("/post/edit.jsp")).thenReturn(disp);
         new PostServlet().doGet(req, resp);
-        verify(req).getRequestDispatcher("/post/edit.jsp");
+        verify(req).getRequestDispatcher("/post/edit.jsp" );
     }
 }

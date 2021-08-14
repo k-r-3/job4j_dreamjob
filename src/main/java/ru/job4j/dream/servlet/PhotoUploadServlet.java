@@ -51,6 +51,7 @@ public class PhotoUploadServlet extends HttpServlet {
                     Candidate candidate = PsqlStore.instOf().findCandById(Integer.parseInt(name));
                     candidate.setPhoto(photo.getName());
                     PsqlStore.instOf().save(candidate);
+                    System.out.println(candidate.getPhoto());
                     try (FileOutputStream out = new FileOutputStream(photo)) {
                         out.write(item.getInputStream().readAllBytes());
                     }

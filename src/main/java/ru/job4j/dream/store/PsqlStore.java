@@ -272,6 +272,7 @@ public class PsqlStore implements Store {
                     candidate = new Candidate(item.getInt("id"),
                             item.getString("name"));
                     candidate.setPhoto(item.getString("photo"));
+                    candidate.setCityId(item.getInt("city_id"));
                 }
             }
         } catch (Exception e) {
