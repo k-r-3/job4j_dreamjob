@@ -55,7 +55,8 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/index.jsp"> На главную</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> |
+                    Выйти</a>
             </li>
 
         </ul>
@@ -65,15 +66,17 @@
             </div>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/post/posts.do?id=<%=post.getId()%>" method="post">
-                    <div class="form-group">
-                        <label>Заголовок</label>
-                        <label>
-                            <input type="text" class="form-control" title="ведите имя" name="name" value="<%=post.getName()%>">
-                        </label>
-                        <label>Описание</label>
-                        <label>
-                            <input type="text" class="form-control" title="введите описание" name="description" value="<%=post.getDescription()%>">
-                        </label>
+                    <div class="form-group row">
+                        <label for="topic" class="col-sm-2 col-form-label col-form-label-sm">Заголовок</label>
+                        <div class="col-sm-10">
+                                <input type="text" class="form-control" title="ведите имя" id="topic" name="name"
+                                       value="<%=post.getName()%>">
+                        </div>
+                        <label for="desc" class="col-sm-2 col-form-label col-form-label-sm">Описание</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" title="введите описание" id="desc" name="description"
+                                      value="<%=post.getDescription()%>"></textarea>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>

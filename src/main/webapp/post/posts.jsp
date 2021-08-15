@@ -58,6 +58,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Тема</th>
                         <th scope="col">Описание</th>
+                        <th scope="col">Дата создания</th>
                     </tr>
                     </thead>
                     <tbody>

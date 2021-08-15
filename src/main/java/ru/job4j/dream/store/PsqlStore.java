@@ -61,7 +61,7 @@ public class PsqlStore implements Store {
                             result.getInt("id"),
                             result.getString("name"),
                             result.getString("descr"),
-                            result.getString("created")
+                            result.getDate("created").toString()
                     ));
                 }
             }
@@ -184,12 +184,11 @@ public class PsqlStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement stat = cn.prepareStatement("INSERT INTO post(name, descr, created) VALUES (?, ?, ?)",
+             PreparedStatement stat = cn.prepareStatement("INSERT INTO post(name, descr) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             stat.setString(1, post.getName());
             stat.setString(2, post.getDescription());
-            stat.setString(3, post.getCreated());
             stat.execute();
             try (ResultSet id = stat.getGeneratedKeys()) {
                 if (id.next()) {
@@ -324,12 +323,11 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement stat = cn.prepareStatement(
                      "UPDATE post "
-                             + "SET name = ?, descr = ?, created = ? "
+                             + "SET name = ?, descr = ?"
                              + "WHERE id =" + post.getId())
         ) {
             stat.setString(1, post.getName());
             stat.setString(2, post.getDescription());
-            stat.setString(3, post.getCreated());
             stat.execute();
         } catch (Exception e) {
             LOG.debug("update post exception", e);

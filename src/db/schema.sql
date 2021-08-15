@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS post
     id      SERIAL PRIMARY KEY,
     name    text,
     descr   text,
-    created text
+    created DATE default CURRENT_DATE
 );
 
 CREATE TABLE IF NOT EXISTS city
