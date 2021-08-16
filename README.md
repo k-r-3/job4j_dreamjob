@@ -4,20 +4,28 @@ job4j_dreamjob
 
 [![Build Status](https://travis-ci.com/k-r-3/job4j_dreamjob.svg?branch=master)](https://travis-ci.com/k-r-3/job4j_dreamjob)
 [![codecov](https://codecov.io/gh/k-r-3/job4j_dreamjob/branch/master/graph/badge.svg?token=KJ72A7JEFU)](https://codecov.io/gh/k-r-3/job4j_dreamjob)
-<h3>
-Description :
-</h3>
+
+<h3>Description :</h3>
+
 <p>
 This project represents labor exchange.
 </p>
 <p>
 The app provide CRUD operations based on database query.
 </p>
+<h4>
+Used technologies :
+</h4>
+<ul>
+<li>Servlets</li>
+<li>JDBC</li>
+<li>PowerMock</li>
+<li>JUnit</li>
+<li>Slf4j</li>
+<li>Checkstyle</li>
+</ul>
 <p>
-The app uses Servlets and PostgreSQL on service side
-</p>
-<p>
-Web-Service has a 5 screen
+Web-Service has a 5 screens
 </p>
 <ul>
 
@@ -89,6 +97,9 @@ After success compile, Liquibase create schema in Database.
 For authorize in service You might input 'root@local' in email form 
 and 'root' in password form of start page.
 </p>
+<h3>Contact</h3>
+<p>If You have any question, please contact me:</p>
+<p>https://t.me/roman_kozlov</p>
 
 
 
